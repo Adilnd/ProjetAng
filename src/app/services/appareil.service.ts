@@ -89,7 +89,7 @@ emitAppareilSubject(){
 
 
   saveAppareilsToServer() {
-    this.httpClient.post('http://localhost/phpmyadmin/db_structure.php?server=1&db=testdb/appareils.json', this.appareils).subscribe(
+    this.httpClient.put('http://localhost/phpmyadmin/db_structure.php?server=1&db=testdb/appareils.json', this.appareils).subscribe(
       ()  => {
         console.log('Enregistrement terminé!');
       },
@@ -99,6 +99,20 @@ emitAppareilSubject(){
       }
     );
     this.emitAppareilSubject();
+  }
+
+
+  getAppareilsFromServer()
+  {
+    this.httpClient.get<any[]>('http://localhost/phpmyadmin/db_structure.php?server=1&db=testdb/appareils.json').subscribe(
+      (response) => {
+        this.appareils = response;
+        this.emitAppareilSubject();
+      },
+      (error) => {
+        console.log('Erreur de chargement!');
+      }
+    );
   }
 
 
